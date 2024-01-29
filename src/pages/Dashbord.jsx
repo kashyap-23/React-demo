@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import Http from '../Http (1)';
 
-
 const url = (process.env.REACT_APP_API_KEY);
 
 function Dashbord() {
+    
     const name = localStorage.getItem("name");
 
     const [User, setUser] = useState();
@@ -48,6 +48,7 @@ function Dashbord() {
                         <div><img src="" alt="" /></div>
                         <div>
                             <h1 className='colors-blue'>Good Afternoon, {name} </h1>
+                           
                         </div>
                     </div>
                   
@@ -60,7 +61,7 @@ function Dashbord() {
                             </div>
                         </div>
 
-                        <div className='bg-teal-100 p-9 h3  w-1/3 text-center border-b-8 border-teal-500  font-mono shadow-md  shadow-black p-9 h3'>
+                        <div className='bg-teal-100 h3  w-1/3 text-center border-b-8 border-teal-500  font-mono shadow-md  shadow-black p-9 h3'>
                             <div className='flex gap-x-7 '>
                                 <h1 className='text-teal-500 '>Users</h1>
                                 <span className=' font-bold'>{User}</span>

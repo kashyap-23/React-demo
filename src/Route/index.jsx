@@ -15,6 +15,7 @@ const RoutePage = () => {
                         path={route.path}
                         element={route.component}
                         key={index}
+                        title={route.title}
                     > </Route>
                 ))}
             </Route>

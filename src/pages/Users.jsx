@@ -3,6 +3,7 @@ import Http from '../Http (1)';
 import Model from '../Component/Model';
 import axios from "axios";
 import { toast } from 'react-toastify';
+import Pagination from '../Component/Pagination';
 // import Swal from "sweetalert2";
 const url = (process.env.REACT_APP_API_KEY);
 
@@ -148,7 +149,7 @@ function Users() {
       .then((response) => {
         // setCategory(response.data.data.category);
         console.log(response);
-        let users = response.data.data.data
+        let users = response.data.data
         setUser(users)
         console.log(users);
 
@@ -161,24 +162,27 @@ function Users() {
   }
 
   return (
-    <div className='mt-4'>
-      <div className='flex justify-between  border border-black  p-5  '>
-        <h1 className='h2'>Users</h1>
+    <div className=''>
+      <div className='border mt-5'>
+        
         <div>
           <>
-            <form>
-              <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                  <svg className="w-4 h-4 text-gray-500 dark:text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                  </svg>
-                </div>
-                <input type="search" id="default-search" onChange={handleSerching} className="mx-2 border-2 border-gray-300  block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Search here" required />
+            <div className='flex justify-between gap-3 mt-2 mb-4'>
+              <form>
+                <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                  </div>
+                  <input type="search" id="default-search" onChange={handleSerching} className="mx-2 h-3 border-2 border-gray-300  block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Search here" required />
 
-              </div>
-            </form>
-            <button className='bg-gray-800 px-4 p-2 text-white rounded-lg hover:bg-gray-950  mx-2' id="main" onClick={openModal}  >New User</button>
+                </div>
+              </form>
+              <button className='bg-gray-800 px-4 p-2 text-white rounded-lg hover:bg-gray-950  mx-5 m-2 ' id="main" onClick={openModal}  >New User</button>
+            </div>
+            
             <Model isVisible={showModal} onClose={() => setshowModal(false)} >
               <div className='p-4' >
 
@@ -224,7 +228,7 @@ function Users() {
         </div>
       </div>
 
-      <div className='border-2 border-black-600'>
+      <div className=' border-black-600'>
        
               <table className="w-full text-center text-sm font-light">
                 <thead className="border-b font-medium items-center">
@@ -237,7 +241,7 @@ function Users() {
                   </tr>
                 </thead>
                 <tbody>
-                  {users?.map((data, index) => (
+                  {users?.data?.map((data, index) => (
 
                     <tr className="border dark:border-neutral-500">
                       <td className="whitespace-nowrap px-6 py-3 font-medium">{index + 1}</td>
@@ -248,7 +252,12 @@ function Users() {
                       <i onClick={() => Delete(data.id)} className="fa-solid fa-trash text-red-700" role="button"></i>
                     </tr>
                   )
-                  )}
+            )}
+            <tr>
+             <td className='text-end' colSpan={7}>
+                <Pagination class="mt-6" links={users?.links} setUser={setUser} />
+              </td>
+            </tr>
                 </tbody>
               </table>
       </div>

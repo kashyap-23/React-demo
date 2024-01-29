@@ -3,6 +3,7 @@ import Http from '../Http (1)';
 import Model from '../Component/Model';
 import axios from "axios";
 import { toast } from 'react-toastify';
+import Pagination from '../Component/Pagination';
 // import Swal from "sweetalert2";
 const url = (process.env.REACT_APP_API_KEY);
 
@@ -16,14 +17,12 @@ function Blogs() {
   const [UserApi, setUserApi] = useState([]);
   const [categoriesApi, setcategoriesApi] = useState([]);
   const [search, setSearch] = useState("");
-
+  const [StatusSearchFilter, setStatusSearchFilter] = useState('');
+  const [usersfilter, setusersfilter] = useState('');
+  const [catagoriesfilter, setcatagoriesfilter] = useState('');
 
   // const [Category, setCategory] = useState();
-  useEffect(() => {
 
-    myFunction(search)
-
-  }, [search])
 
   const handleSerching = (event) => {
     setSearch(event.target.value);
@@ -187,14 +186,13 @@ function Blogs() {
 
   }
 
-  function myFunction(search = "") {
-    Http.callApi('get', url + `blogs?search=${search} `)
+  function myFunction(search = "", StatusSearchFilter = '', usersfilter = '', catagoriesfilter = '') {
+    Http.callApi('get', url + `blogs?search=${search}&status=${StatusSearchFilter}&user_id=${usersfilter}&category_id=${catagoriesfilter}`)
       .then((response) => {
         // setCategory(response.data.data.category);
-        console.log(response);
-        let users = response.data.data.data
+        // console.log(response.data.data, 'blog data is here');
+        let users = response.data.data;
         setUser(users)
-        console.log(users);
 
       })
       .catch((error) => {
@@ -204,31 +202,94 @@ function Blogs() {
 
   }
 
+  useEffect(() => {
+
+    myFunction(search, StatusSearchFilter, usersfilter, catagoriesfilter,)
+
+  }, [search, StatusSearchFilter, usersfilter, catagoriesfilter,])
+
+  const StatusFilter = (event) => {
+    setStatusSearchFilter(event.target.value)
+  }
+
+  function userfilt(event) {
+    setusersfilter(event.target.value)
+  }
+
+  function catagoriesfi(event) {
+    setcatagoriesfilter(event.target.value)
+  }
+
+
+
+
   return (
     <div>
-      <div className=' flex justify-between  border border-black  p-5 '>
-        <h1 className='h2'>Blogs</h1>
+      <div className=' border mt-5'>
+        {/* <h1 className='h2 mt-11'>Blogs</h1> */}
         <div>
           <>
 
-            <form>
-              <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white" >Search</label>
-              <div className="relative border-blue-500">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none ">
-                  <svg className="w-4 h-4 text-gray-500 dark:text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                  </svg>
+            <div className='flex  justify-between items-center'>
+
+              <div>
+                <div className="relative border-blue-500  ">
+                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none ">
+                    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                  </div>
+                  <input type="search" id="default-search" onChange={handleSerching} className="h-3  mx-2 block w-full p-4 ps-10 text-sm  text-gray-900  border-2 border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Search Title" required />
+
                 </div>
-                <input type="search" id="default-search" onChange={handleSerching} className="mx-2 block w-full p-4 ps-10 text-sm  text-gray-900  border-2 border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Search here" required />
-
               </div>
-            </form>
 
-            <button className='bg-gray-800 px-4 p-2 text-white rounded-lg mx-2 ' id="main" onClick={openModal}  >New Blog</button>
+
+
+              <div className='flex gap-3 mt-2 mb-4'>
+
+                <select className='p-2  border-1 border-gray-400 m-2  rounded-lg' name="" id="" onChange={StatusFilter}>
+
+                  <option value="">All Status</option>
+                  <option value="1">Publish <i class="fa-solid fa-xmark"></i></option>
+                  <option value="2">Unpublish <i class="fa-solid fa-xmark"></i></option>
+
+                </select>
+
+
+
+                <select className='p-2  border-1 border-gray-400 m-2  rounded-lg' name='user_id' onChange={userfilt}  >
+                  <option value="">All Users</option>
+                  {
+                    UserApi.map((data, indax) => (
+                      <option value={data.id}>{data.name}</option>
+                    ))
+                  }
+                </select>
+
+                <select className='p-2  border-1 border-gray-400 m-2  rounded-lg' name='user_id' onChange={catagoriesfi}  >
+                  <option value="">All Catagories</option>
+                  {
+                    categoriesApi.map((data, indax) => (
+                      <option value={data.id}>{data.name}</option>
+                    ))
+                  }
+                </select>
+
+
+
+
+                <button className='bg-gray-800 px-4 text-white rounded-lg  mx-5 m-2' id="main" onClick={openModal}  >New Blog</button>
+              </div>
+
+
+            </div>
+
             <Model isVisible={showModal} onClose={() => setshowModal(false)} >
               <div className='p-4' >
 
                 <h1 className='h3 text-center p-4 '>Add A Blog</h1>
+
                 <form  >
                   <div className='flex gap-10 gap-x-24'>
                     <div>
@@ -314,13 +375,13 @@ function Blogs() {
       </div>
 
 
-      <div className="border-2 border-black-600">
+      <div className=" border-black-600">
         <table className="min-w-full text-center text-sm font-light">
           <thead className="border-b font-medium ">
             <tr>
               <th scope="col" className=" py-2 text-2xl">#</th>
               <th scope="col" className=" py-2 text-2xl">Image</th>
-              <th scope="col" className=" py-2 text-2xl">UserName</th>
+              <th scope="col" className=" py-2 text-2xl">User</th>
               <th scope="col" className=" py-2 text-2xl">Title</th>
               <th scope="col" className=" py-2 text-2xl">Category</th>
               <th scope="col" className=" py-2 text-2xl">Date</th>
@@ -329,7 +390,7 @@ function Blogs() {
             </tr>
           </thead>
           <tbody>
-            {users?.map((data, index) => (
+            {users?.data?.map((data, index) => (
               <tr className="border dark:border-neutral-500 ">
                 <td className="whitespace-nowrap px-6 py-2 font-medium">{index + 1}</td>
                 <td className="whitespace-nowrap px-6 py-2 w-9"><img src={data.image} alt="" /></td>
@@ -353,6 +414,11 @@ function Blogs() {
               </tr>
             )
             )}
+            <tr>
+              <td className='text-end' colSpan={7}>
+                <Pagination class="mt-6" links={users?.links} setUser={setUser} />
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
