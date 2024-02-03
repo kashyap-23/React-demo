@@ -67,7 +67,7 @@ function Navbar() {
             <div className="flex items-center  pr-4 " >
 
               <div className="absolute left-2 top-5 text-xxl">
-                <span className="underline" ><b className="">{location.pathname.slice(7)}</b></span>
+                <span className="underline uppercase" ><b className="">{location.pathname.slice(7)}</b></span>
               </div>
               <button onClick={() => setprofile((prev) => !prev)}
                 className=" items-center">

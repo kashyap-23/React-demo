@@ -191,7 +191,7 @@ function Blogs() {
       .then((response) => {
         // setCategory(response.data.data.category);
         // console.log(response.data.data, 'blog data is here');
-        let users = response.data.data;
+        let users = response.data.data
         setUser(users)
 
       })
@@ -393,7 +393,7 @@ function Blogs() {
             {users?.data?.map((data, index) => (
               <tr className="border dark:border-neutral-500 ">
                 <td className="whitespace-nowrap px-6 py-2 font-medium">{index + 1}</td>
-                <td className="whitespace-nowrap px-6 py-2 w-9"><img src={data.image} alt="" /></td>
+                <td className="whitespace-nowrap px-6 py-2 w-9"><img src={data.image} className='w-32 h-[30px] rounded-full' alt="" /></td>
                 <td className="whitespace-nowrap px-6 py-2">{data.user_name}</td>
                 <td className="whitespace-nowrap px-6 py-2">{data.title}</td>
                 <td className="whitespace-nowrap px-6 py-2">{data.category_name}</td>

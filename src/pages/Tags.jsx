@@ -204,7 +204,7 @@ function Tags() {
                   </tr>
                 </thead>
                 <tbody>
-                  {users?.data?.map((data, index) => (
+                  {users?.data.map((data, index) => (
                     <tr className="border dark:border-neutral-500">
                       <td className="whitespace-nowrap px-6 py-3 font-medium">{index + 1}</td>
                       <td className="whitespace-nowrap px-6 py-3">{data.name}</td>

@@ -7,6 +7,7 @@ import Users from "../pages/Users";
 import Login from "../Component/Login";
 import Dashbord from "../pages/Dashbord";
 import Tags from "../pages/Tags";
+// import Frontpage from "../Frontendweb/Frontpage";
 
 
 const routes = [
@@ -18,6 +19,10 @@ const routes = [
   // {
   //   path: "/",
   //   component: <Navbar />,
+  // },
+  // {
+  //   path: "/"
+  //   component: <Frontpage />
   // },
   {
     path: "/admin/dashbord",

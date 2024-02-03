@@ -105,7 +105,7 @@ function Users() {
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
-  
+
     formData.append('name', userInp.name);
     formData.append('email', userInp.email);
     formData.append('password', userInp.password);
@@ -144,7 +144,7 @@ function Users() {
 
   }
 
-  function myFunction(search="") {
+  function myFunction(search = "") {
     Http.callApi('get', url + `users?search=${search}`)
       .then((response) => {
         // setCategory(response.data.data.category);
@@ -164,25 +164,25 @@ function Users() {
   return (
     <div className=''>
       <div className='border mt-5'>
-        
+
         <div>
           <>
             <div className='flex justify-between gap-3 mt-2 mb-4'>
               <form>
                 <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <div className="relative ">
+                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none ">
                     <svg className="w-4 h-4 text-gray-500 dark:text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                   </div>
-                  <input type="search" id="default-search" onChange={handleSerching} className="mx-2 h-3 border-2 border-gray-300  block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Search here" required />
+                  <input type="search" id="default-search" onChange={handleSerching} className="h-3 mx-2 block w-full p-4 ps-10 text-sm  text-gray-900  border-2 border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Search Name" required />
 
                 </div>
               </form>
-              <button className='bg-gray-800 px-4 p-2 text-white rounded-lg hover:bg-gray-950  mx-5 m-2 ' id="main" onClick={openModal}  >New User</button>
+              <button className='bg-gray-800 px-4 p-2 text-white rounded-lg hover:bg-gray-950 mx-5 m-2 ' id="main" onClick={openModal}  >New Tag</button>
             </div>
-            
+
             <Model isVisible={showModal} onClose={() => setshowModal(false)} >
               <div className='p-4' >
 
@@ -194,8 +194,8 @@ function Users() {
                       onChange={handleChange} />
                   </div>
                   <br />
-                 
-                  <div> 
+
+                  <div>
                     <label htmlFor='Image'>Email:</label>
                     <input type="email" name='email' className='form-control' placeholder='Enter a your email' value={userInp?.email || ""}
                       onChange={handleChange} />
@@ -229,37 +229,37 @@ function Users() {
       </div>
 
       <div className=' border-black-600'>
-       
-              <table className="w-full text-center text-sm font-light">
-                <thead className="border-b font-medium items-center">
-                  <tr>
-                    <th scope="col" className=" py-2 text-2xl">#</th>
-                    <th scope="col" className=" py-2 text-2xl">Name</th>
-                    <th scope="col" className=" py-2 text-2xl">Email</th>
-                    <th scope="col" className=" py-2 text-2xl flex">Avtar</th>
-                    <th scope="col" className=" text-2xl">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users?.data?.map((data, index) => (
 
-                    <tr className="border dark:border-neutral-500">
-                      <td className="whitespace-nowrap px-6 py-3 font-medium">{index + 1}</td>
-                      <td className="whitespace-nowrap px-6 py-3 ">{data.name}</td>
-                      <td className="whitespace-nowrap px-6 py-3">{data.email}</td>
-                      <td className="whitespace-nowrap px-6 py-3"><img src={data.image} alt="" className='w-[60px] h-[40px] rounded-full' /></td>
-                      <i onClick={() => getCategories(data.id)} className="fa-regular fa-pen-to-square mt-3 me-4 text-green-700" role="button"></i>
-                      <i onClick={() => Delete(data.id)} className="fa-solid fa-trash text-red-700" role="button"></i>
-                    </tr>
-                  )
+        <table className="w-full text-center text-sm font-light">
+          <thead className="border-b font-medium items-center">
+            <tr>
+              <th scope="col" className=" py-2 text-2xl">#</th>
+              <th scope="col" className=" py-2 text-2xl">Name</th>
+              <th scope="col" className=" py-2 text-2xl">Email</th>
+              <th scope="col" className=" py-2 text-2xl flex">Avtar</th>
+              <th scope="col" className=" text-2xl">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users?.data?.map((data, index) => (
+
+              <tr className="border dark:border-neutral-500">
+                <td className="whitespace-nowrap px-6 py-3 font-medium">{index + 1}</td>
+                <td className="whitespace-nowrap px-6 py-3 ">{data.name}</td>
+                <td className="whitespace-nowrap px-6 py-3">{data.email}</td>
+                <td className="whitespace-nowrap px-6 py-3"><img src={data.image} alt="" className='w-[60px] h-[40px] rounded-full' /></td>
+                <i onClick={() => getCategories(data.id)} className="fa-regular fa-pen-to-square mt-3 me-4 text-green-700" role="button"></i>
+                <i onClick={() => Delete(data.id)} className="fa-solid fa-trash text-red-700" role="button"></i>
+              </tr>
+            )
             )}
             <tr>
-             <td className='text-end' colSpan={7}>
+              <td className='text-end' colSpan={7}>
                 <Pagination class="mt-6" links={users?.links} setUser={setUser} />
               </td>
             </tr>
-                </tbody>
-              </table>
+          </tbody>
+        </table>
       </div>
     </div>
   )
