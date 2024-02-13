@@ -19,9 +19,9 @@ function Dropdown() {
           <li><button onClick={logout} ><b>Logout</b></button></li>
               </ul>
           </div>
-      
+
     </>
   )
 }
 
-export default Dropdown
+export default Dropdown;

@@ -7,6 +7,9 @@ import Users from "../pages/Users";
 import Login from "../Component/Login";
 import Dashbord from "../pages/Dashbord";
 import Tags from "../pages/Tags";
+import Contect from "../Frontendweb/Contect";
+import CategoriesShow from "../Frontendweb/Categoryclick";
+import Contactus from "../pages/Contactus";
 // import Frontpage from "../Frontendweb/Frontpage";
 
 
@@ -24,6 +27,8 @@ const routes = [
   //   path: "/"
   //   component: <Frontpage />
   // },
+
+
   {
     path: "/admin/dashbord",
     component: <Dashbord />,
@@ -43,6 +48,18 @@ const routes = [
   {
     path: "/admin/tags",
     component: <Tags />,
+  },
+  {
+    path: "/admin/contacts",
+    component: <Contactus />,
+  },
+  {
+    path: "/contact",
+    component: <Contect />,
+  },
+  {
+    path: "/Categorie",
+    component: <CategoriesShow />,
   },
 
 ]

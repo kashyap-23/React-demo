@@ -50,4 +50,4 @@ function Pagination({ links, setUser }) {
     );
 }
 
-export default Pagination
+export default Pagination;

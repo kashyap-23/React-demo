@@ -10,6 +10,7 @@ function Navbar() {
   const location = useLocation();
   const name = localStorage.getItem("name");
   const [openprofile, setprofile] = useState(false)
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false)
   const navigat = useNavigate();
   // useEffect(() => {
   //   if (!localStorage.getItem("token")) {
@@ -22,22 +23,17 @@ function Navbar() {
   //   Http.setBearerToken(token)
   // },[])
 
+  const handleSidebar = () => {
+    setIsOpenSidebar((isOpenSidebar) => !isOpenSidebar)
+  }
+
 
   return (
     <>
-      <div className="flex fixed h-screen w-full">
-        <div className="  md:flex flex-col w-64 
-        ">
-          <div className="flex items-center gap-x-2     h-16   ">
-            <div className="flex  items-center gap-x-4  ">
-              <img src="http://octalinfotech.com/img/octal-logo.png" className="h-10 rounded-full" alt="" />
-              <span className="  font-bold uppercase w-full"><h2>Octal Infotech</h2></span>
-            </div>
-            {/* <span>{Route.title}</span> */}
-
-          </div >
-          <div className="flex flex-col flex-1 overflow-y-auto">
-            <nav className="flex-1 px-2 py-4 shadow-xl bg-gray-800 ">
+      <div className="flex h-screen w-full  gap-3">
+        <div className={`${isOpenSidebar ? 'flex' : 'hidden'} md:flex flex-col w-64  h-screen top-14`}>
+          <div className="flex flex-col flex-1 overflow-hidden relative">
+            <nav className="flex-1 px-2 py-4 shadow-xl bg-gray-800  absolute h-screen w-full top-12">
 
               <Link to="/admin/dashbord" className="flex items-center px-4 py-2 text-gray-100 hover:bg-red-700"><i className="fa-solid fa-house "></i>
                 <span className="mx-2">Dashbord</span>
@@ -55,27 +51,41 @@ function Navbar() {
               <Link to="/admin/blogs" className="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-red-700"><i class="fa-solid fa-box"></i>
                 <span className="mx-2">Blogs</span>
               </Link>
+              <Link to="/admin/contacts" className="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-red-700"><i class="fa-solid fa-address-book"></i>
+                <span className="mx-2">Contacts</span>
+              </Link>
 
             </nav>
           </div>
         </div>
 
-        <div className="flex   flex-col flex-1 overflow-y-auto ">
-
-          <div className="flex  bg-black items-center justify-between h-16 shadow-xl   bg-white border-b border-gray-200" style={{ position: 'fixed', width: "1663px" }}>
-            <p></p>
+        {/* <div className="flex items-center gap-x-2     h-16   ">
+            <div className="flex  items-center gap-x-4">
+             
+            </div>
+          </div > */}
+        <div className="flex justify-between px-3  bg-black items-center h-16 shadow-xl   bg-white border-b border-gray-200 fixed w-full">
+          <div className="flex items-center gap-20 px-3">
+            <div className="hidden md:flex items-center gap-3">
+              <img src="http://octalinfotech.com/img/octal-logo.png" className="h-10 rounded-full" alt="" />
+              <span className="  font-bold uppercase w-full"><h2>Octal Infotech</h2></span>
+            </div>
+            <div className="block md:hidden">
+              <button onClick={handleSidebar} className="bg-red-700 p-2 rounded-md">show</button>
+            </div>
             <div className="flex items-center  pr-4 " >
-
-              <div className="absolute left-2 top-5 text-xxl">
+              <div className="text-xxl">
                 <span className="underline uppercase" ><b className="">{location.pathname.slice(7)}</b></span>
               </div>
-              <button onClick={() => setprofile((prev) => !prev)}
-                className=" items-center">
-                <img src="https://ims-api.octalinfotech.com/images/avatar.png" className="h-10 rounded-full" alt="" />
-              </button>
-
             </div>
           </div>
+          <div>
+            <button onClick={() => setprofile((prev) => !prev)}>
+              <img src="https://ims-api.octalinfotech.com/images/avatar.png" className="h-10 rounded-full" alt="" />
+            </button>
+          </div>
+        </div>
+        <div className="flex flex-col flex-1 overflow-y-auto ">
           <div className="mt-10">
             <Outlet />
           </div>

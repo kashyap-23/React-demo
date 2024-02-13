@@ -17,7 +17,6 @@ function Footer() {
                 const user = response.data.data.data;
                 setCategories(user)
                 const user1 = response.data.data;
-                console.log("footer:-", user1);
 
             })
             .catch((error) => {
@@ -49,7 +48,6 @@ function Footer() {
                     <div>
                         <div className='flex gap-x-12'>
 
-
                             <div className=''>
                                 <h1 className='h3'>Connect</h1>
                                 <ul className='flex flex-col gap-y-3 mt-4'>
@@ -74,17 +72,12 @@ function Footer() {
                                     }
                                 </ul>
                             </div>
-
                         </div>
                     </div>
                 </div>
 
-
             </div>
-            {/* <div className='bg-gray-800 text-white  flex  justify-center gap-x-12'>
-                <div>© Beautiful Footer, 2021.</div>
-                <div>About us | Contact us | Privacy Policy</div>
-            </div> */}
+          
         </>
     )
 }

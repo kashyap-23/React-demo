@@ -4,7 +4,6 @@ import Model from '../Component/Model';
 import axios from "axios";
 import { toast } from 'react-toastify';
 import Pagination from '../Component/Pagination';
-// import Swal from "sweetalert2";
 const url = (process.env.REACT_APP_API_KEY);
 
 function Blogs() {
@@ -20,8 +19,6 @@ function Blogs() {
   const [StatusSearchFilter, setStatusSearchFilter] = useState('');
   const [usersfilter, setusersfilter] = useState('');
   const [catagoriesfilter, setcatagoriesfilter] = useState('');
-
-  // const [Category, setCategory] = useState();
 
 
   const handleSerching = (event) => {
@@ -189,8 +186,7 @@ function Blogs() {
   function myFunction(search = "", StatusSearchFilter = '', usersfilter = '', catagoriesfilter = '') {
     Http.callApi('get', url + `blogs?search=${search}&status=${StatusSearchFilter}&user_id=${usersfilter}&category_id=${catagoriesfilter}`)
       .then((response) => {
-        // setCategory(response.data.data.category);
-        // console.log(response.data.data, 'blog data is here');
+    
         let users = response.data.data
         setUser(users)
 
@@ -226,37 +222,32 @@ function Blogs() {
   return (
     <div>
       <div className=' border mt-5'>
-        {/* <h1 className='h2 mt-11'>Blogs</h1> */}
+        
         <div>
           <>
 
             <div className='flex  justify-between items-center'>
 
               <div>
-                <div className="relative border-blue-500  ">
-                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none ">
-                    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                    </svg>
+                <div className=" flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-slate-100 overflow-hidden">
+                  <div className="grid place-items-center h-full w-12">
+                    <i className="fa-solid fa-magnifying-glass"></i>
                   </div>
-                  <input type="search" id="default-search" onChange={handleSerching} className="h-3  mx-2 block w-full p-4 ps-10 text-sm  text-gray-900  border-2 border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Search Title" required />
-
+                  <input onChange={handleSerching}
+                    className="peer h-full w-full outline-none text-sm bg-slate-100 text-gray-700 bg-s pr-2 border-none" type="text"
+                    placeholder="Search Title.." />
                 </div>
               </div>
 
+              <div className='flex gap-3 mt-2 mb-4 '>
 
-
-              <div className='flex gap-3 mt-2 mb-4'>
-
-                <select className='p-2  border-1 border-gray-400 m-2  rounded-lg' name="" id="" onChange={StatusFilter}>
+                <select className='  border-1 border-gray-400 m-2 py-2 rounded-lg' name="" id="" onChange={StatusFilter}>
 
                   <option value="">All Status</option>
                   <option value="1">Publish <i class="fa-solid fa-xmark"></i></option>
                   <option value="2">Unpublish <i class="fa-solid fa-xmark"></i></option>
 
                 </select>
-
-
 
                 <select className='p-2  border-1 border-gray-400 m-2  rounded-lg' name='user_id' onChange={userfilt}  >
                   <option value="">All Users</option>
@@ -267,7 +258,7 @@ function Blogs() {
                   }
                 </select>
 
-                <select className='p-2  border-1 border-gray-400 m-2  rounded-lg' name='user_id' onChange={catagoriesfi}  >
+                <select className='py-2  border-1 border-gray-400 m-2  rounded-lg' name='user_id' onChange={catagoriesfi}  >
                   <option value="">All Catagories</option>
                   {
                     categoriesApi.map((data, indax) => (
@@ -276,13 +267,8 @@ function Blogs() {
                   }
                 </select>
 
-
-
-
-                <button className='bg-gray-800 px-4 text-white rounded-lg  mx-5 m-2' id="main" onClick={openModal}  >New Blog</button>
+                <button className='bg-gray-800 px-4 text-white rounded-lg  mx-5 m-2' id="main" onClick={openModal}  >+ New Blog</button>
               </div>
-
-
             </div>
 
             <Model isVisible={showModal} onClose={() => setshowModal(false)} >
@@ -329,7 +315,7 @@ function Blogs() {
                       </div>
                     </div>
                     <div>
-                      <div>
+                      <div className=''>
                         <label htmlFor='Status'>Status:</label>
 
                         <select className="form-control p-2" name='status' onChange={handleChange} value={userInp?.status || ""}>
@@ -351,8 +337,7 @@ function Blogs() {
                         <label htmlFor='description'>Discription:</label>
                         <textarea name="description" id="" cols="10" rows="5" className='form-control' placeholder='Enter a your Discription' value={userInp?.description || ""}
                           onChange={handleChange}></textarea>
-                        {/* <input type="text" name='description' className='form-control' placeholder='Enter a your Discription' value={userInp?.description || ""}
-                        onChange={handleChange} /> */}
+                  
                       </div>
                       <br />
                       <div className='flex gap-x-9  pt-8 justify-end '>

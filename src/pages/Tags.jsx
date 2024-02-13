@@ -149,18 +149,16 @@ function Tags() {
           <>
             <div className='flex justify-between gap-3 mt-2 mb-4'>
               <form>
-                <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                <div className="relative ">
-                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none ">
-                    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                    </svg>
+                <div className=" flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-slate-100 overflow-hidden">
+                  <div className="grid place-items-center h-full w-12">
+                    <i className="fa-solid fa-magnifying-glass"></i>
                   </div>
-                  <input type="search" id="default-search" onChange={handleSerching} className="h-3 mx-2 block w-full p-4 ps-10 text-sm  text-gray-900  border-2 border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Search Title" required />
-
+                  <input onChange={handleSerching}
+                    className="peer h-full w-full outline-none text-sm bg-slate-100 text-gray-700 bg-s pr-2 border-none" type="text"
+                    placeholder="Search Name.." />
                 </div>
               </form>
-              <button className='bg-gray-800 px-4 p-2 text-white rounded-lg hover:bg-gray-950 mx-5 m-2 ' id="main" onClick={openModal}  >New Tag</button>
+              <button className='bg-gray-800 px-4 p-2 text-white rounded-lg hover:bg-gray-950 mx-5 m-2 ' id="main" onClick={openModal}  >+ New Tag</button>
             </div>
            
             <Model isVisible={showModal} onClose={() => setshowModal(false)} >

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ReactSimplyCarousel from 'react-simply-carousel';
 import Http from '../Http (1)';
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 
@@ -8,7 +9,7 @@ function Carousel() {
     const [activeSlideIndex, setActiveSlideIndex] = useState(0);
     const [Catagories, setCatagories] = useState();
     const url = (process.env.REACT_APP_API_KEY);
-
+    const currentId = useParams().id;
     function myFunction() {
         Http.callApi('get', url + `categories`)
             .then((response) => {
@@ -35,7 +36,7 @@ function Carousel() {
             <ReactSimplyCarousel
                 activeSlideIndex={activeSlideIndex}
                 onRequestChange={setActiveSlideIndex}
-                autoplay={true}
+                autoplay={false}
                 infinite={true}
                 itemsToShow={1}
                 itemsToScroll={2}
@@ -97,11 +98,11 @@ function Carousel() {
 
                             <div className='flex flex-col items-center'>
                                 <div>
-                                    <img src={data.image} alt="s" className='h-20 w-20 rounded-full  border-black p-2 ' />
+                                    <img src={data.image} alt="s" className={`h-20 w-20 rounded-full  border-black p-2  ${data.id == currentId && 'border-2'}`} />
                                 </div>
                                 <Link to={`/categories/${data.id}`}>
-                                    <div className=' pt-4 font-bold  hover:border-b-4 border-black    ' >
-                                        <h1 className='focus:bg-red-900'>{data.name}</h1>
+                                    <div className={`pt-4 font-bold  hover:border-b-4 border-black ${data.id == currentId && 'border-b-4 '}`}>
+                                        <h1 className='focus:bg-red-900 active'>{data.name}</h1>
                                     </div>
 
                                 </Link>
@@ -115,5 +116,6 @@ function Carousel() {
             </ReactSimplyCarousel>
         </div>
     );
-}
+};
+
 export default Carousel; 

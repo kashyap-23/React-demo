@@ -10,6 +10,7 @@ function Fcarosusel() {
                 activeSlideIndex={activeSlideIndex}
                 onRequestChange={setActiveSlideIndex}
                 itemsToShow={1}
+                autoplay={true}
 
 
                 itemsToScroll={1}

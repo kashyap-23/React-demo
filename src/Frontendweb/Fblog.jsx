@@ -3,15 +3,26 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FaCalendar, FaUser } from 'react-icons/fa';
 
-function Fblog() {
+function Fblog({ search }) {
 
     const [Users, setUsers] = useState([]);
-    // const [BlogsShow, setBlogsShow] = useState([]);
+    // const [searchValue, setSearchData] = useState(search);
+
+
 
     useEffect(() => {
+        getBlogData(search)
+    }, [search])
 
+
+
+    const getBlogData = (search) => {
         const token = localStorage.getItem('token')
-        axios.get(`https://blog-api-dev.octalinfotech.com/api/blogs`,
+        let url = `https://blog-api-dev.octalinfotech.com/api/blogs`;
+        if (search) {
+            url += `?search=${search}`;
+        }
+        axios.get(url,
             { headers: { "Authorization": `Bearer ${token}` } })
 
             .then((response) => {
@@ -22,10 +33,7 @@ function Fblog() {
             .catch((error) => {
                 console.log(error);
             });
-    }, [1000])
-
-
-
+    }
 
     return (
         <div>
@@ -34,14 +42,14 @@ function Fblog() {
                 {
                     Users.map((data, index) => (
                         <div className='cursor-pointer bg-slate-50 shadow-md  shadow-gray-400'>
-                            <Link to={`blogview/${data.id}`}>
+                            <Link to={`Inblog/${data.id}`}>
                                 <div>
-                                    <img src={data.image} className='  w-[350px] h-[230px] object-cover items-center flex justify-center rounded  ' alt="alert" />
+                                    <img src={data.image} className=' w-[350px] h-[240px]  items-center flex justify-center rounded  object-contain ' alt="alert" />
 
                                 </div>
                                 <div className='flex items-center gap-x-3 gap-y-14 mt-3 justify-between mx-2  '>
                                     <div className='flex items-center gap-x-2'>
-                                        <div>{/*<img src={data.user_image} alt="" className='h-5 w-5 rounded-full' />*/} <FaUser /> </div>
+                                        <div> <FaUser /> </div>
                                         <div>{data.user_name}</div>
                                     </div>
                                     <div className='flex items-center gap-x-2'>
@@ -49,8 +57,8 @@ function Fblog() {
                                         <div> {data.date}</div>
                                     </div>
                                 </div>
-                                <div className='mt-2 py-4'>
-                                    <h1 className='h4 text-center'>{data.title}</h1>
+                                <div className='mt-2 py-1'>
+                                    <h1 className='h5 text-center'>{data.title}</h1>
                                 </div>
                             </Link>
 
