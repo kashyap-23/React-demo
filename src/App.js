@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 // import Dashboard from "./Component/Dashboard";
 // import { Route } from "react-router-dom";
@@ -8,6 +8,7 @@ import Route from "./Route/index";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Http from "./Http (1)";
+import { ClipLoader } from "react-spinners";
 
 
 function App() {
@@ -15,13 +16,41 @@ function App() {
   useEffect(() => {
     Http.setBearerToken(token)
   }, [])
+
+  // const [loading, setLoding] = useState(true)
+  // useEffect(() => {
+  //   setLoding(true)
+  //   setTimeout(() => {
+  //     setLoding(false)
+  //   }, 5000)
+  // }, [])
   return (
     < >
-      <BrowserRouter>
-        {/* <Dashboard /> */}
-        <Route />
-      </BrowserRouter>
-      <ToastContainer />
+      <div>
+        {/* {
+          loading ?
+            <ClipLoader 
+              color={'D0021B'}
+              loading={loading}
+
+              size={30}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+
+
+            />
+            : */}
+            <div className="">
+              <BrowserRouter>
+                {/* <Dashboard /> */}
+                <Route />
+              </BrowserRouter>
+              <ToastContainer />
+            </div>
+        
+      </div>
+     
+
     </>
   );
 }
