@@ -9,9 +9,11 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Http from "./Http (1)";
 import { ClipLoader } from "react-spinners";
+// import Store from "../src/Store/Store";
 
 
 function App() {
+  // const token = Store((state) => state.token)
   let token = localStorage.getItem("token")
   useEffect(() => {
     Http.setBearerToken(token)

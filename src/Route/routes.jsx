@@ -10,6 +10,7 @@ import Tags from "../pages/Tags";
 import Contect from "../Frontendweb/Contect";
 import CategoriesShow from "../Frontendweb/Categoryclick";
 import Contactus from "../pages/Contactus";
+import FrontNav from "../Frontendweb/FrontNav";
 // import Frontpage from "../Frontendweb/Frontpage";
 
 
@@ -20,7 +21,7 @@ const routes = [
     component: <Login />,
   },
   // {
-  //   path: "/",
+  //   path: "/", 
   //   component: <Navbar />,
   // },
   // {
@@ -61,6 +62,10 @@ const routes = [
     path: "/Categorie",
     component: <CategoriesShow />,
   },
+  // {
+  //   path: "/home",
+  //   component: <FrontNav />,
+  // },
 
 ]
 

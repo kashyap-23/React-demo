@@ -32,7 +32,7 @@ function Carousel() {
     }, []);
 
     return (
-        <div className='mt-20'>
+        <div className='mt-[8rem]'>
             <ReactSimplyCarousel
                 activeSlideIndex={activeSlideIndex}
                 onRequestChange={setActiveSlideIndex}

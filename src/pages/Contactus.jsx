@@ -43,8 +43,8 @@ function Contacts() {
     }
 
     return (
-        <div className=''>
-            <div className='border mt-5'>
+        <div className='shadow-xl bg-white rounded-sm '>
+            <div className=' my-5 p-2'>
                 <div>
                     <>
                         <div className='flex justify-between gap-3 mt-2 mb-4'>
@@ -68,17 +68,17 @@ function Contacts() {
             <div className="">
 
                 <table className="min-w-full text-center text-sm font-light">
-                    <thead className="border-b font-medium ">
+                    <thead className="border font-medium ">
                         <tr>
-                            <th scope="col" className=" py-2 text-2xl">Name</th>
+                            <th scope="col" className=" py-2 text-sm">Name</th>
 
-                            <th scope="col" className=" py-2 text-2xl">Email</th>
-                            <th scope="col" className=" text-2xl">Message</th>
+                            <th scope="col" className=" py-2 text-sm">Email</th>
+                            <th scope="col" className=" text-sm">Message</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className='divide-y divide-black/10'>
                         {users?.data.map((data, index) => (
-                            <tr className="border dark:border-neutral-500">
+                            <tr className="">
 
                                 <td className="whitespace-nowrap px-6 py-3">{data.name}</td>
                                 <td className="whitespace-nowrap px-6 py-3">{data.email}</td>

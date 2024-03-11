@@ -124,6 +124,10 @@ code {
   text-decoration:none;
 }
 
+body{
+  background-color: rgb(224, 240, 240);
+}
+
 /* ul {
   list-style-type: none;
   margin: 0;

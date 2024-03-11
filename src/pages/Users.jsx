@@ -4,6 +4,7 @@ import Model from '../Component/Model';
 import axios from "axios";
 import { toast } from 'react-toastify';
 import Pagination from '../Component/Pagination';
+import Swal from 'sweetalert2';
 // import Swal from "sweetalert2";
 const url = (process.env.REACT_APP_API_KEY);
 
@@ -128,18 +129,40 @@ function Users() {
   }
 
 
+
   const Delete = (id) => {
 
-    console.log(id);
-    setuserInp();
-    Http.callApi('delete', url + `users/${id}/delete`)
-      .then((response) => {
-        console.log(
-          response
-        );
-        toast.success(response.data.message);
-        myFunction()
-      })
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+
+        console.log(id);
+        setuserInp();
+        Http.callApi('delete', url + `users/${id}/delete`)
+          .then((response) => {
+            console.log(
+              response
+            );
+            // toast.success(response.data.message);
+            Swal.fire({
+              title: response.data.message,
+              text: "Your file has been deleted.",
+              icon: "success"
+            });
+            myFunction()
+          })
+
+
+      }
+    });
 
 
   }
@@ -162,8 +185,8 @@ function Users() {
   }
 
   return (
-    <div className=''>
-      <div className='border mt-5'>
+    <div className='shadow-xl bg-white rounded-sm '>
+      <div className=' my-5 p-2'>
 
         <div>
           <>
@@ -230,25 +253,25 @@ function Users() {
       <div className=' border-black-600'>
 
         <table className="w-full text-center text-sm font-light">
-          <thead className="border-b font-medium items-center">
+          <thead className="border font-medium items-center">
             <tr>
-              <th scope="col" className=" py-2 text-2xl">#</th>
-              <th scope="col" className=" py-2 text-2xl">Name</th>
-              <th scope="col" className=" py-2 text-2xl">Email</th>
-              <th scope="col" className=" py-2 text-2xl flex">Avtar</th>
-              <th scope="col" className=" text-2xl">Action</th>
+              <th scope="col" className=" py-2 text-sm">#</th>
+              <th scope="col" className=" py-2 text-sm">Name</th>
+              <th scope="col" className=" py-2 text-sm">Email</th>
+              <th scope="col" className=" py-2 text-sm ">Avtar</th>
+              <th scope="col" className=" text-sm">Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className='divide-y divide-black/10'>
             {users?.data?.map((data, index) => (
 
-              <tr className="border dark:border-neutral-500">
+              <tr className="">
                 <td className="whitespace-nowrap px-6 py-3 font-medium">{index + 1}</td>
                 <td className="whitespace-nowrap px-6 py-3 ">{data.name}</td>
                 <td className="whitespace-nowrap px-6 py-3">{data.email}</td>
-                <td className="whitespace-nowrap px-6 py-3"><img src={data.image} alt="" className='w-[60px] h-[40px] rounded-full' /></td>
-                <i onClick={() => getCategories(data.id)} className="fa-regular fa-pen-to-square mt-3 me-4 text-green-700" role="button"></i>
-                <i onClick={() => Delete(data.id)} className="fa-solid fa-trash text-red-700" role="button"></i>
+                <td className="whitespace-nowrap px-6 py-3 flex justify-center "><img src={data.image} alt="" className='w-[40px] h-[40px] rounded-full object-cover' /></td>
+                <td><i onClick={() => getCategories(data.id)} className="fa-regular fa-pen-to-square mt-4 me-4 text-green-700" role="button"></i>
+                  <i onClick={() => Delete(data.id)} className="fa-solid fa-trash text-red-700" role="button"></i></td>
               </tr>
             )
             )}

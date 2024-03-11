@@ -27,7 +27,7 @@ function Footer() {
     return (
         <>
             <div className='bg-gray-800 text-white flex justify-center mt-5  '>
-                <div className='flex gap-x-10 mt-20'>
+                <div className='flex flex-col md:flex-row gap-x-10 mt-20'>
                     <div className='flex'>
                         <div>
                             <img src="https://blog-dev.octalinfotech.com/img/octal_infotech-logo_480.f7cd037c.png" className='w-28 h-16 rounded-xl' alt="" />
@@ -46,7 +46,7 @@ function Footer() {
                         </div>
                     </div>
                     <div>
-                        <div className='flex gap-x-12'>
+                        <div className='flex flex-col md:flex-row gap-x-12'>
 
                             <div className=''>
                                 <h1 className='h3'>Connect</h1>
@@ -77,7 +77,7 @@ function Footer() {
                 </div>
 
             </div>
-          
+
         </>
     )
 }

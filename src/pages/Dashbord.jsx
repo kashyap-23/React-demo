@@ -1,20 +1,24 @@
 
 import React, { useEffect, useState } from 'react'
 import Http from '../Http (1)';
+import Store from "../Store/Store";
 
 const url = (process.env.REACT_APP_API_KEY);
 
 function Dashbord() {
 
-    const name = localStorage.getItem("name");
+    // const name = localStorage.getItem("name");
 
     const [User, setUser] = useState();
     const [Category, setCategory] = useState();
     const [Blog, setBlog] = useState()
     const [Tags, setTags] = useState()
+    const loginData = Store((state) => state.data)
+    const token = Store((state) => state.token)
+    const LogoinName = JSON.stringify(loginData.name)
 
     useEffect(() => {
-
+        // console.log(JSON.stringify(loginData.name));
 
         // axios.get("https://blog-api-dev.octalinfotech.com/api/dashboard",
         //     { headers: { "Authorization": `Bearer ${token}` } })
@@ -45,7 +49,7 @@ function Dashbord() {
                     <div className='text-blue-900 h1 p-4'>
                         <div><img src="" alt="" /></div>
                         <div>
-                            <h1 className='colors-blue font-serif'>Good Afternoon, {name} </h1>
+                            <h1 className='colors-blue font-serif'>Good Afternoon, {LogoinName} </h1>
 
                         </div>
                     </div>

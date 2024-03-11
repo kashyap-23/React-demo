@@ -4,6 +4,7 @@ import Model from '../Component/Model';
 import axios from "axios";
 import { toast } from 'react-toastify';
 import Pagination from '../Component/Pagination';
+import Swal from 'sweetalert2';
 // import Swal from "sweetalert2";
 const url = (process.env.REACT_APP_API_KEY);
 
@@ -89,7 +90,7 @@ function Tags() {
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
-    
+
     formData.append('name', userInp.name);
     Http.callApi('post', url + `tages/${userInp.id}/update`, formData)
       .then((response) => {
@@ -111,16 +112,37 @@ function Tags() {
 
   const Delete = (id) => {
 
-    console.log(id);
-    setuserInp();
-    Http.callApi('delete', url + `tages/${id}/delete`)
-      .then((response) => {
-        console.log(
-          response
-        );
-        toast.success(response.data.message);
-        myFunction()
-      })
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+
+        console.log(id);
+        setuserInp();
+        Http.callApi('delete', url + `tages/${id}/delete`)
+          .then((response) => {
+            console.log(
+              response
+            );
+            // toast.success(response.data.message);
+            Swal.fire({
+              title: response.data.message,
+              text: "Your file has been deleted.",
+              icon: "success"
+            });
+            myFunction()
+          })
+
+
+      }
+    });
 
 
   }
@@ -143,8 +165,8 @@ function Tags() {
   }
 
   return (
-    <div className=''>
-      <div className='border mt-5'>
+    <div className='shadow-xl bg-white rounded-sm '>
+      <div className=' my-5 p-2'>
         <div>
           <>
             <div className='flex justify-between gap-3 mt-2 mb-4'>
@@ -160,7 +182,7 @@ function Tags() {
               </form>
               <button className='bg-gray-800 px-4 p-2 text-white rounded-lg hover:bg-gray-950 mx-5 m-2 ' id="main" onClick={openModal}  >+ New Tag</button>
             </div>
-           
+
             <Model isVisible={showModal} onClose={() => setshowModal(false)} >
               <div className='p-4' >
 
@@ -191,36 +213,36 @@ function Tags() {
       </div>
 
       <div className="">
-        
-              <table className="min-w-full text-center text-sm font-light">
-                <thead className="border-b font-medium ">
-                  <tr>
-                    <th scope="col" className=" py-2 text-2xl">#</th>
-                    
-                    <th scope="col" className=" py-2 text-2xl">Name</th>
-                    <th scope="col" className=" text-2xl">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users?.data.map((data, index) => (
-                    <tr className="border dark:border-neutral-500">
-                      <td className="whitespace-nowrap px-6 py-3 font-medium">{index + 1}</td>
-                      <td className="whitespace-nowrap px-6 py-3">{data.name}</td>
-                      <i onClick={() => getTags(data.id)} className="fa-regular fa-pen-to-square mt-3  text-green-700 whitespace-nowrap px-6 py-3" role="button"></i>
-                      <i onClick={() => Delete(data.id)} className="fa-solid fa-trash text-red-700 whitespace-nowrap px-6 py-3" role="button"></i>
-                    </tr>
-                  )
+
+        <table className="min-w-full text-center text-sm font-light">
+          <thead className="border font-medium ">
+            <tr>
+              <th scope="col" className=" py-2 text-sm">#</th>
+
+              <th scope="col" className=" py-2 text-sm">Name</th>
+              <th scope="col" className=" text-sm">Action</th>
+            </tr>
+          </thead>
+          <tbody className='divide-y divide-black/10'>
+            {users?.data.map((data, index) => (
+              <tr className="">
+                <td className="whitespace-nowrap px-6 py-3 font-medium">{index + 1}</td>
+                <td className="whitespace-nowrap px-6 py-3">{data.name}</td>
+                <td><i onClick={() => getTags(data.id)} className="fa-regular fa-pen-to-square mt-3  text-green-700 whitespace-nowrap py-3" role="button"></i>
+                  <i onClick={() => Delete(data.id)} className="fa-solid fa-trash text-red-700 whitespace-nowrap px-6" role="button"></i></td>
+              </tr>
+            )
             )}
             <tr>
               <td className='text-end' colSpan={7}>
                 <Pagination class="mt-6" links={users?.links} setUser={setUser} />
               </td>
             </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-       
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   )
 }
 

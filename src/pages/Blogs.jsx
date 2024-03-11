@@ -4,6 +4,9 @@ import Model from '../Component/Model';
 import axios from "axios";
 import { toast } from 'react-toastify';
 import Pagination from '../Component/Pagination';
+import DropdownComponent from '../Component/Drpdwn';
+import Store from '../Store/Store';
+import Swal from 'sweetalert2';
 const url = (process.env.REACT_APP_API_KEY);
 
 function Blogs() {
@@ -20,6 +23,22 @@ function Blogs() {
   const [usersfilter, setusersfilter] = useState('');
   const [catagoriesfilter, setcatagoriesfilter] = useState('');
 
+  const statusData = [
+    { name: 'All', value: 0 },
+    { name: 'Publish', value: 1 },
+    { name: 'Unpublish', value: 2 },
+
+  ]
+
+  const [selectedOption, setSelectedOption] = useState(statusData[0]);
+  const [selectedUser, setSelectedUser] = useState({
+    name: 'All',
+    value: ''
+  });
+  const [selectedCategori, setSelectedCategori] = useState({
+    name: 'All',
+    value: ''
+  });
 
   const handleSerching = (event) => {
     setSearch(event.target.value);
@@ -31,13 +50,22 @@ function Blogs() {
   }
 
   useEffect(() => {
-    Http.callApi('get', url + `users`)
-
+    Http.callApi('get', url + `users/all`)
       .then((response) => {
-        const user = response.data.data.data;
+        let user = response.data.data;
+        user = user.map((item) => {
+          return {
+            name: item.name,
+            value: item.id,
+            id: item.id
+          }
+        });
+        user.unshift({
+          name: 'All',
+          value: ''
+        });
         setUserApi(user)
-        console.log(user);
-        myFunction()
+        myFunction();
 
       })
       .catch((error) => {
@@ -46,15 +74,25 @@ function Blogs() {
 
 
     setToggle(false);
-  }, [])
+  }, []);
+
 
   useEffect(() => {
-    Http.callApi('get', url + `categories`)
-
+    Http.callApi('get', url + `categories/all`)
       .then((response) => {
-        const categories = response.data.data.data;
+        let categories = response.data.data;
+        categories = categories.map((item) => {
+          return {
+            name: item.name,
+            value: item.id,
+            id: item.id
+          }
+        });
+        categories.unshift({
+          name: 'All',
+          value: ''
+        });
         setcategoriesApi(categories)
-        console.log(categories);
         myFunction()
 
       })
@@ -71,6 +109,7 @@ function Blogs() {
 
     const name = event.target.name;
     const value = event.target.value;
+    console.warn(event);
     setuserInp(values => ({ ...values, [name]: value }))
   }
 
@@ -84,7 +123,9 @@ function Blogs() {
 
   const HandleSubmit = (event) => {
     event.preventDefault();
+    // const token = Store((state) => state.token)
     let token = localStorage.getItem("token");
+
     setuserInp('')
 
     const formData = new FormData();
@@ -104,7 +145,7 @@ function Blogs() {
       .then((response) => {
 
         const user = response.data.data.data;
-
+        console.log(user);
         setuserInp(user)
         toast.success(response.data.message);
         setshowModal(false);
@@ -169,31 +210,55 @@ function Blogs() {
 
   const Delete = (id) => {
 
-    console.log(id);
-    setuserInp();
-    Http.callApi('delete', url + `blogs/${id}/delete`)
-      .then((response) => {
-        console.log(
-          response
-        );
-        toast.success(response.data.message);
-        myFunction()
-      })
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+
+
+        console.log(id);
+        setuserInp();
+        Http.callApi('delete', url + `blogs/${id}/delete`)
+          .then((response) => {
+            console.log(
+              response
+            );
+            // toast.success(response.data.message);
+            Swal.fire({
+              title: response.data.message,
+              text: "Your file has been deleted.",
+              icon: "success"
+            });
+            myFunction()
+          })
+
+
+      }
+    });
 
 
   }
 
+
+
+
   function myFunction(search = "", StatusSearchFilter = '', usersfilter = '', catagoriesfilter = '') {
     Http.callApi('get', url + `blogs?search=${search}&status=${StatusSearchFilter}&user_id=${usersfilter}&category_id=${catagoriesfilter}`)
       .then((response) => {
-    
         let users = response.data.data
         setUser(users)
-
+        console.log(users);
       })
+
       .catch((error) => {
         console.log(error);
-
       });
 
   }
@@ -204,25 +269,22 @@ function Blogs() {
 
   }, [search, StatusSearchFilter, usersfilter, catagoriesfilter,])
 
-  const StatusFilter = (event) => {
-    setStatusSearchFilter(event.target.value)
+  const statusFilter = (option) => {
+    setStatusSearchFilter(option.value)
   }
 
-  function userfilt(event) {
-    setusersfilter(event.target.value)
+  const userFilter = (user) => {
+    setusersfilter(user.value)
   }
 
-  function catagoriesfi(event) {
-    setcatagoriesfilter(event.target.value)
+  const catagoriesFilter = (categories) => {
+    setcatagoriesfilter(categories.value)
   }
-
-
-
 
   return (
-    <div>
-      <div className=' border mt-5'>
-        
+    <div className='shadow-xl bg-white rounded-sm '>
+      <div className=' my-5 p-2'>
+
         <div>
           <>
 
@@ -240,34 +302,37 @@ function Blogs() {
               </div>
 
               <div className='flex gap-3 mt-2 mb-4 '>
+                <DropdownComponent
+                  selectedOption={selectedOption}
+                  setSelectedOption={setSelectedOption}
+                  options={statusData}
+                  statusFilter={statusFilter}
 
-                <select className='  border-1 border-gray-400 m-2 py-2 rounded-lg' name="" id="" onChange={StatusFilter}>
+                />
+                <div>
 
-                  <option value="">All Status</option>
-                  <option value="1">Publish <i class="fa-solid fa-xmark"></i></option>
-                  <option value="2">Unpublish <i class="fa-solid fa-xmark"></i></option>
+                  <DropdownComponent
+                    selectedOption={selectedUser}
+                    setSelectedOption={setSelectedUser}
+                    options={UserApi}
+                    statusFilter={userFilter}
 
-                </select>
+                  />
+                </div>
 
-                <select className='p-2  border-1 border-gray-400 m-2  rounded-lg' name='user_id' onChange={userfilt}  >
-                  <option value="">All Users</option>
-                  {
-                    UserApi.map((data, indax) => (
-                      <option value={data.id}>{data.name}</option>
-                    ))
-                  }
-                </select>
+                <div>
+                  <DropdownComponent
+                    selectedOption={selectedCategori}
+                    setSelectedOption={setSelectedCategori}
+                    options={categoriesApi}
+                    statusFilter={catagoriesFilter}
 
-                <select className='py-2  border-1 border-gray-400 m-2  rounded-lg' name='user_id' onChange={catagoriesfi}  >
-                  <option value="">All Catagories</option>
-                  {
-                    categoriesApi.map((data, indax) => (
-                      <option value={data.id}>{data.name}</option>
-                    ))
-                  }
-                </select>
+                  />
 
-                <button className='bg-gray-800 px-4 text-white rounded-lg  mx-5 m-2' id="main" onClick={openModal}  >+ New Blog</button>
+                </div>
+
+
+                <button className='bg-gray-800 px-4 text-white rounded-lg  mx-5 ' id="main" onClick={openModal}  >+ New Blog</button>
               </div>
             </div>
 
@@ -337,7 +402,7 @@ function Blogs() {
                         <label htmlFor='description'>Discription:</label>
                         <textarea name="description" id="" cols="10" rows="5" className='form-control' placeholder='Enter a your Discription' value={userInp?.description || ""}
                           onChange={handleChange}></textarea>
-                  
+
                       </div>
                       <br />
                       <div className='flex gap-x-9  pt-8 justify-end '>
@@ -360,37 +425,37 @@ function Blogs() {
       </div>
 
 
-      <div className=" border-black-600">
-        <table className="min-w-full text-center text-sm font-light">
-          <thead className="border-b font-medium ">
+      <div className=" border-black-600 py-3">
+        <table className="min-w-full text-center text-sm font-light ">
+          <thead className="border font-medium ">
             <tr>
-              <th scope="col" className=" py-2 text-2xl">#</th>
-              <th scope="col" className=" py-2 text-2xl">Image</th>
-              <th scope="col" className=" py-2 text-2xl">User</th>
-              <th scope="col" className=" py-2 text-2xl">Title</th>
-              <th scope="col" className=" py-2 text-2xl">Category</th>
-              <th scope="col" className=" py-2 text-2xl">Date</th>
-              <th scope="col" className=" py-2 text-2xl">Status</th>
-              <th scope="col" className=" text-2xl">Action</th>
+              <th scope="col" className=" py-2 text-sm">#</th>
+              <th scope="col" className=" py-2 text-sm">Image</th>
+              <th scope="col" className=" py-2 text-sm">User</th>
+              <th scope="col" className=" py-2 text-sm">Title</th>
+              <th scope="col" className=" py-2 text-sm">Category</th>
+              <th scope="col" className=" py-2 text-sm">Date</th>
+              <th scope="col" className=" py-2 text-sm">Status</th>
+              <th scope="col" className="py-2 text-sm">Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className='divide-y divide-black/10'>
             {users?.data?.map((data, index) => (
-              <tr className="border dark:border-neutral-500 ">
+              <tr className=" ">
                 <td className="whitespace-nowrap px-6 py-2 font-medium">{index + 1}</td>
-                <td className="whitespace-nowrap px-6 py-2 w-9"><img src={data.image} className='w-32 h-[30px] rounded-full' alt="" /></td>
+                <td className="whitespace-nowrap px-6 py-2 flex justify-center"><img src={data.image} className='w-[30px] h-[30px] rounded-full object-cover' alt="" /></td>
                 <td className="whitespace-nowrap px-6 py-2">{data.user_name}</td>
                 <td className="whitespace-nowrap px-6 py-2">{data.title}</td>
                 <td className="whitespace-nowrap px-6 py-2">{data.category_name}</td>
                 <td className="whitespace-nowrap px-6 py-2">{data.date}</td>
-                <td className="whitespace-nowrap px-6 py-2"><span className={data.status === 1 ? "bg-green-700 p-2 rounded-pill text-white px-4" : "bg-red-700 p-2 rounded-pill text-white px-4"}>{data.status === 1 ? "Publish" : "Unpublish"}</span></td>
-                <div className='flex items-center text-center mt-4 justify-center space-x-7 '>
+                <td className="whitespace-nowrap px-6 py-2"><span className={data.status === 1 ? "bg-green-700 p-1 rounded-pill text-white px-3" : "bg-red-700 p-1 rounded-pill text-white px-2"}>{data.status === 1 ? "Publish" : "Unpublish"}</span></td>
+                <div className='flex gap-4 mt-1  justify-center'>
                   <div >
                     <td>
                       <i onClick={() => getCategories(data.id)} className="fa-solid fa-pen-to-square text-green-700 hover:text-slate-700 text-2xl" role="button"></i>
                     </td>
                   </div>
-                  <div className='flex justify-center items-center'>
+                  <div className=''>
                     <td>
                       <i onClick={() => Delete(data.id)} className="fa-solid fa-trash text-red-700 text-2xl hover:text-slate-700" role="button"></i>
                     </td>
