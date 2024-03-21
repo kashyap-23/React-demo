@@ -11,19 +11,16 @@ function Inblog() {
     const [leastedBlog, setleastedBlog] = useState([]);
 
     const navigate = useNavigate()
-
-
     let { id } = useParams();
-
     const n = 1000;
-
+    
     const Blogs = (id) => {
         const token = '7ELX2CnkfqWpipzXNB5QV9sxSf4dPk'
         axios.get(`https://blog-api-dev.octalinfotech.com/api/blogs/${id}/show`,
             { headers: { "Authorization": `Bearer ${token}` } })
 
             .then((response) => {
-                const user = response.data.data.blog;
+                const user = response.data.data;
                 const user1 = response.data.data.latestPost;
                 setBlogsShow(user)
                 setleastedBlog(user1)
@@ -118,11 +115,11 @@ function Inblog() {
 
                         <div className='flex flex-wrap   justify-center container  gap-y-14 gap-x-12'>
                             {
-                                leastedBlog.map((data, index) => (
+                                leastedBlog?.map((data, index) => (
                                     <div className='cursor-pointer shadow-md  shadow-gray-500 '>
                                         <Link to={`/Inblog/${data.id}`}>
-                                            <div className='hover:overflow-hidden'>
-                                                <img src={data.image} className='  w-[350px] h-[230px] object-contain   hover:scale-y-150   hover:transition-all hover:scale-x-150 ' alt="alert" />
+                                            <div className=''>
+                                                <img src={data.image} className='  w-[330px] h-[220px] object-contain ' alt="alert" />
                                             </div>
 
 

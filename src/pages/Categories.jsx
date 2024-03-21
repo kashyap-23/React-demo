@@ -18,6 +18,7 @@ function Categories() {
   const [showModal, setshowModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [search, setSearch] = useState("");
+  const [changeAdd_Update, setChangeAdd_Update] = useState(true);
 
   // const [Category, setCategory] = useState();
   useEffect(() => {
@@ -33,6 +34,9 @@ function Categories() {
 
   const openModal = () => {
     setshowModal(true);
+    setChangeAdd_Update(true);
+    setToggle(true);
+    setuserInp('')
   }
 
 
@@ -82,6 +86,7 @@ function Categories() {
   }
 
   const getCategories = (id) => {
+    setChangeAdd_Update(false)
     Http.callApi('get', url + `categories/${id}/show`)
 
       .then((response) => {
@@ -101,6 +106,7 @@ function Categories() {
 
   const Update = (e) => {
     e.preventDefault();
+    setChangeAdd_Update(true)
 
     const token = localStorage.getItem("token");
 
@@ -126,7 +132,7 @@ function Categories() {
 
 
   const Delete = (id) => {
-    
+
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -137,7 +143,7 @@ function Categories() {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-       
+
 
 
         console.log(id);
@@ -197,13 +203,13 @@ function Categories() {
                     placeholder="Search Name.." />
                 </div>
               </form>
-              <button className='bg-gray-800 px-4 p-2 text-white rounded-lg hover:bg-gray-950 x-2m  mx-5 m-2 items-center' id="main" onClick={openModal}  >+ New Category</button>
+              <button className='bg-gray-800  p-2 text-white rounded-lg hover:bg-gray-950 x-2m  mx-5 m-2 items-center' id="main" onClick={openModal}  >+ New Category</button>
             </div>
 
             <Model isVisible={showModal} onClose={() => setshowModal(false)} >
               <div className='p-4' >
 
-                <h1 className='h3 text-center p-4 '>Add A Category</h1>
+                <h1 className='h3 text-center p-4 '>{changeAdd_Update === true ? "Add" : "Update"} A Category</h1>
                 <form  >
                   <div>
 
@@ -219,7 +225,6 @@ function Categories() {
                   </div>
                   <br />
                   <div className='flex gap-x-9  pt-8 justify-end '>
-
                     <button className='bg-gray-600 px-3 py-2 rounded-lg text-white font-bold' onClick={() => setshowModal(false)} >Cancle</button>
                     {
                       Toggle ? <button onClick={HandleSubmit} className='bg-gray-800 px-3 py-2 rounded-lg text-white font-bold '  >Add</button>
@@ -240,7 +245,7 @@ function Categories() {
         <table className="min-w-full text-center text-sm font-light">
           <thead className="border font-medium ">
             <tr>
-              <th scope="col" className=" py-2 text-sm">#</th>
+              <th scope="col" className=" py-2 text-sm">Id</th>
               <th scope="col" className=" py-2 text-sm"><span className=''>Image</span></th>
               <th scope="col" className=" py-2 text-sm">Name</th>
               <th scope="col" className="py-2 text-sm">Action</th>

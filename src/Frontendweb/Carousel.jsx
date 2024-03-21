@@ -24,7 +24,6 @@ function Carousel() {
                 console.log(error);
 
             });
-
     }
 
     useEffect(() => {

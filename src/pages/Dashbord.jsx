@@ -1,21 +1,18 @@
 
 import React, { useEffect, useState } from 'react'
 import Http from '../Http (1)';
-import Store from "../Store/Store";
+
 
 const url = (process.env.REACT_APP_API_KEY);
 
 function Dashbord() {
 
-    // const name = localStorage.getItem("name");
+    const name = localStorage.getItem("name");
 
     const [User, setUser] = useState();
     const [Category, setCategory] = useState();
     const [Blog, setBlog] = useState()
     const [Tags, setTags] = useState()
-    const loginData = Store((state) => state.data)
-    const token = Store((state) => state.token)
-    const LogoinName = JSON.stringify(loginData.name)
 
     useEffect(() => {
         // console.log(JSON.stringify(loginData.name));
@@ -30,8 +27,6 @@ function Dashbord() {
                 setCategory(response.data.data.category);
                 setBlog(response.data.data.blog);
                 setTags(response.data.data.tag);
-
-
 
             })
             .catch((error) => {
@@ -49,7 +44,7 @@ function Dashbord() {
                     <div className='text-blue-900 h1 p-4'>
                         <div><img src="" alt="" /></div>
                         <div>
-                            <h1 className='colors-blue font-serif'>Good Afternoon, {LogoinName} </h1>
+                            <h1 className='colors-blue font-serif'>Good Afternoon, {name} </h1>
 
                         </div>
                     </div>
@@ -59,7 +54,7 @@ function Dashbord() {
                         <div className='bg-blue-100 drop-shadow-xl text-center flex items-center text-2xl border-b-8 border-blue-500 p-3 shadow-black  font-semibold shadow-md max-md:p-8'>
                             <div className='flex gap-x-7 '>
                                 <h1 className='text-blue-500'> Categories</h1>
-                                <span className=' font-bold'>{Category}</span>
+                                <span className=' font-bold text-3xl'>{Category}</span>
                             </div>
                         </div>
 

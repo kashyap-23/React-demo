@@ -53,14 +53,12 @@ function CategoriesShow() {
                         <div className='text-black h1'>Blog data not found</div>
 
                         :
-
-
                         Categories.map((data) => (
 
                             <div className='cursor-pointer bg-slate-50 shadow-md  shadow-gray-400 '>
                                 <Link to={`/Inblog/${data.id}`}>
                                     <div>
-                                        <img src={data.image} className='  w-[350px] h-[230px] object-contain items-center flex justify-center  ' alt="alert" />
+                                        <img src={data.image} className='  w-[350px] h-[230px] object-contain items-center flex justify-center' alt="alert" />
 
                                     </div>
 

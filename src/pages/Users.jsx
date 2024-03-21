@@ -16,6 +16,7 @@ function Users() {
   const [showModal, setshowModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [search, setSearch] = useState("");
+  const [changeAdd_Update, setChangeAdd_Update] = useState(true);
 
 
   // const [Category, setCategory] = useState();
@@ -32,6 +33,9 @@ function Users() {
 
   const openModal = () => {
     setshowModal(true);
+    setChangeAdd_Update(true);
+    setToggle(true);
+    setuserInp('')
   }
 
 
@@ -83,6 +87,8 @@ function Users() {
   }
 
   const getCategories = (id) => {
+    setChangeAdd_Update(false)
+
     Http.callApi('get', url + `users/${id}/show`)
 
       .then((response) => {
@@ -102,6 +108,8 @@ function Users() {
 
   const Update = (e) => {
     e.preventDefault();
+    setChangeAdd_Update(true)
+
 
     const token = localStorage.getItem("token");
 
@@ -202,13 +210,13 @@ function Users() {
                     placeholder="Search something.." />
                 </div>
               </form>
-              <button className='bg-gray-800 px-4 p-2 text-white rounded-lg hover:bg-gray-950 mx-5 m-2 ' id="main" onClick={openModal}  >+ New User</button>
+              <button className='bg-gray-800 px-2 p-2 text-white rounded-lg hover:bg-gray-950 mx-5 m-2 ' id="main" onClick={openModal}  >+ New User</button>
             </div>
 
             <Model isVisible={showModal} onClose={() => setshowModal(false)} >
               <div className='p-4' >
 
-                <h1 className='h3 text-center p-4 '>Add A User</h1>
+                <h1 className='h3 text-center p-4'>{changeAdd_Update === true ? "Add" : "Update"} A User</h1>
                 <form  >
                   <div>
                     <label htmlFor='Name'>Name:</label>
@@ -255,7 +263,7 @@ function Users() {
         <table className="w-full text-center text-sm font-light">
           <thead className="border font-medium items-center">
             <tr>
-              <th scope="col" className=" py-2 text-sm">#</th>
+              <th scope="col" className=" py-2 text-sm">Id</th>
               <th scope="col" className=" py-2 text-sm">Name</th>
               <th scope="col" className=" py-2 text-sm">Email</th>
               <th scope="col" className=" py-2 text-sm ">Avtar</th>

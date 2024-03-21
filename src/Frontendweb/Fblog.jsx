@@ -8,8 +8,6 @@ function Fblog({ search }) {
     const [Users, setUsers] = useState([]);
     // const [searchValue, setSearchData] = useState(search);
 
-
-
     useEffect(() => {
         getBlogData(search)
     }, [search])
@@ -41,10 +39,10 @@ function Fblog({ search }) {
             <div className='flex flex-wrap   justify-center container  gap-y-14 gap-x-12'>
                 {
                     Users.map((data, index) => (
-                        <div className='cursor-pointer bg-slate-50 shadow-md  shadow-gray-400'>
+                        <div className='cursor-pointer bg-slate-50 shadow-md hover:scale-105 shadow-gray-400'>
                             <Link to={`Inblog/${data.id}`}>
                                 <div>
-                                    <img src={data.image} className=' w-[350px] h-[240px]  items-center flex justify-center rounded  object-contain ' alt="alert" />
+                                    <img src={data.image} className=' w-[350px] h-[240px]  items-center flex justify-center rounded  object-contain  ' alt="alert" />
 
                                 </div>
                                 <div className='flex items-center gap-x-3 gap-y-14 mt-3 justify-between mx-2  '>

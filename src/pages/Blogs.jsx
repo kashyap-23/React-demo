@@ -5,7 +5,6 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 import Pagination from '../Component/Pagination';
 import DropdownComponent from '../Component/Drpdwn';
-import Store from '../Store/Store';
 import Swal from 'sweetalert2';
 const url = (process.env.REACT_APP_API_KEY);
 
@@ -22,6 +21,7 @@ function Blogs() {
   const [StatusSearchFilter, setStatusSearchFilter] = useState('');
   const [usersfilter, setusersfilter] = useState('');
   const [catagoriesfilter, setcatagoriesfilter] = useState('');
+  const [changeAdd_Update, setChangeAdd_Update] = useState(true);
 
   const statusData = [
     { name: 'All', value: 0 },
@@ -47,6 +47,9 @@ function Blogs() {
 
   const openModal = () => {
     setshowModal(true);
+    setChangeAdd_Update(true);
+    setToggle(true);
+    setuserInp('')
   }
 
   useEffect(() => {
@@ -126,6 +129,7 @@ function Blogs() {
     // const token = Store((state) => state.token)
     let token = localStorage.getItem("token");
 
+
     setuserInp('')
 
     const formData = new FormData();
@@ -160,8 +164,9 @@ function Blogs() {
   }
 
   const getCategories = (id) => {
-    Http.callApi('get', url + `blogs/${id}/show`)
+    setChangeAdd_Update(false)
 
+    Http.callApi('get', url + `blogs/${id}/show`)
       .then((response) => {
         const user = response.data.data;
         setuserInp(user)
@@ -179,6 +184,8 @@ function Blogs() {
 
   const Update = (e) => {
     e.preventDefault();
+    setChangeAdd_Update(true)
+
 
     const token = localStorage.getItem("token");
 
@@ -332,14 +339,15 @@ function Blogs() {
                 </div>
 
 
-                <button className='bg-gray-800 px-4 text-white rounded-lg  mx-5 ' id="main" onClick={openModal}  >+ New Blog</button>
+                <button className='bg-gray-800 px-2 text-white rounded-lg  mx-5 ' id="main" onClick={openModal}  >+ New Blog</button>
               </div>
             </div>
 
             <Model isVisible={showModal} onClose={() => setshowModal(false)} >
               <div className='p-4' >
 
-                <h1 className='h3 text-center p-4 '>Add A Blog</h1>
+                <h1 className='h3 text-center p-4 '> {changeAdd_Update === true ? "Add" : "Update"} A Blog</h1>
+
 
                 <form  >
                   <div className='flex gap-10 gap-x-24'>
@@ -429,7 +437,7 @@ function Blogs() {
         <table className="min-w-full text-center text-sm font-light ">
           <thead className="border font-medium ">
             <tr>
-              <th scope="col" className=" py-2 text-sm">#</th>
+              <th scope="col" className=" py-2 text-sm">Id</th>
               <th scope="col" className=" py-2 text-sm">Image</th>
               <th scope="col" className=" py-2 text-sm">User</th>
               <th scope="col" className=" py-2 text-sm">Title</th>
